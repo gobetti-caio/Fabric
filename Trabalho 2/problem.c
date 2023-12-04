@@ -34,7 +34,7 @@ Problem *read_file(FILE *arq)
     fscanf(arq, "%d\n", &qtd_nodes);
     p->size = qtd_nodes + 1;
 
-    for (int i = 0; i <= qtd_nodes; i++)
+    for (int i = 0; i < qtd_nodes; i++)
     {
         while (1)
         {
@@ -43,7 +43,7 @@ Problem *read_file(FILE *arq)
             PossiblePaths *n = possible_paths_construct(i, index, prev_distance);
             vector_push_back(p->possible_paths_nodes, n);
 
-            if (last_char == '\n')
+            if (last_char == '\n' || last_char == '\r')
             {
                 break;
             }
@@ -55,12 +55,13 @@ Problem *read_file(FILE *arq)
 void problem_destroy(Problem *p)
 {
     int size = vector_size(p->possible_paths_nodes);
-    while (size > 0)
+
+    for (int i = 0; i < size; i++)
     {
-        PossiblePaths *n = vector_get(p->possible_paths_nodes, size);
+        PossiblePaths *n = vector_get(p->possible_paths_nodes, i);
         free(n);
-        size--;
     }
+    
     vector_destroy(p->possible_paths_nodes);
     free(p);
 }

@@ -110,8 +110,10 @@ Vector *solve_dijkstra(Problem *problem)// check
     while (visited_check(paths) == false || heap_empty(not_visited) == false) // check
     {
         node_removed = heap_pop(not_visited); // check 
+        int i = node_removed->index;
+        PossiblePaths *analisado = vector_get(paths, i);
 
-        if (vector_get(paths, node_removed->index) == 0 || vector_get(paths, node_removed->origin_distance) == 0) // check
+        if (node_removed->index == 0 || analisado->origin_distance == 0) // check
         {
             void update_path(paths, node_removed); // check
 

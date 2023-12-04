@@ -106,12 +106,6 @@ void *heap_pop(Heap *h)
     ShortestPath = h->node[0];
     h->node[0] = h->node[h->size - 1];
     h->size--;
-    heapify_pop(h, 0);
-    for (int i = 0; i < h->size; i++)
-    {
-        printf("%d\n",         h->node[i].distance);
-    }
-    printf("\n");
     return ShortestPath.data;
 };
  
