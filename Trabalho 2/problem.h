@@ -1,3 +1,6 @@
+#ifndef PROBLEM_H
+#define PROBLEM_H
+
 #include "vector.h"
 
 typedef struct PossiblePaths
@@ -23,4 +26,4 @@ PossiblePaths *possible_paths_construct(int index, int previous, int previous_di
 void problem_destroy(Problem *p);
 
 
-
+#endif

@@ -1,9 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "dijkstra.h"
-#include "vector.h"
-#include "heap.h"
-#include "problem.h"
 #include "path.h"
 
 /**

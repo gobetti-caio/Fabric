@@ -97,3 +97,8 @@ data_type vector_pop_front(Vector *v)
 {
     return vector_remove(v, 0);
 };
+
+data_type vector_pop_back(Vector *v)
+{
+    return vector_remove(v, v->size - 1);
+};

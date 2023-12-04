@@ -1,3 +1,6 @@
+#ifndef HEAP_H
+#define HEAP_H
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -16,3 +19,4 @@ void *heap_pop(Heap *h);
 
 void heap_destroy(Heap* h);
 
+#endif

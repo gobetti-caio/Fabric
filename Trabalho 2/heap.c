@@ -75,7 +75,7 @@ void heapify_pop(Heap *h, int index)
         heap_swap(h,min,index);
         // calling the function recursively
         // to preserve the heap order
-        minheapify(h, min);
+        heapify_pop(h, min);
     }
 };
 
@@ -103,22 +103,16 @@ void heap_push(Heap *h, void *data, int distance)
 void *heap_pop(Heap *h)
 {
     Node ShortestPath;
-
-    if (h->size == 0)
-    {
-        printf("\nHeap is empty.");
-        return;
-    }
     ShortestPath = h->node[0];
     h->node[0] = h->node[h->size - 1];
     h->size--;
     heapify_pop(h, 0);
-    return ShortestPath.data;
     for (int i = 0; i < h->size; i++)
     {
         printf("%d\n",         h->node[i].distance);
     }
     printf("\n");
+    return ShortestPath.data;
 };
  
 

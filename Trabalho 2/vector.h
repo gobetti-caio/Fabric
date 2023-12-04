@@ -1,3 +1,6 @@
+#ifndef VECTOR_H
+#define VECTOR_H
+
 typedef void *data_type;
 
 typedef struct Vector Vector;
@@ -54,3 +57,5 @@ void vector_clear(Vector *v);
 
 // Libera a memoria alocada para o vetor
 void vector_destroy(Vector *v);
+
+#endif
