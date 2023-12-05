@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+
 typedef void *data_type;
 
 typedef struct Heap Heap;
+
 
 Heap *heap_construct();
 
