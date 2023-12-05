@@ -15,6 +15,7 @@ PossiblePaths *possible_paths_construct(int index, int previous, int previous_di
     return pp;
 }
 
+
 Problem *problem_construct()
 {
     Problem *p = (Problem *)calloc(1, sizeof(Problem));
@@ -23,6 +24,7 @@ Problem *problem_construct()
 
     return p;
 }
+
 
 Problem *read_file(FILE *arq)
 {
@@ -51,6 +53,7 @@ Problem *read_file(FILE *arq)
     }
     return p;
 }
+
 
 void problem_destroy(Problem *p)
 {
