@@ -3,12 +3,13 @@
 
 #include "path.h"
 
+
 /**
- * Função criada para construir o vetor que guarda os nós com o valor 
- * para o antecessor e qual o antecessor
- * Ela cria os nós problema com a origem e custo = 0, no algoritmo
- * de djikstra eu vou apenas atualizando eles
- * @param size tamanho do vetor 
+ * *
+It creates the path and initializated its @param PossiBlePaths
+with the origin_distance equal to 0 what will be useful in the function
+visited_check on dijkstra.c
+ * @param size - vector size
 */
 Vector *paths_construct(int size)
 {
@@ -24,11 +25,8 @@ Vector *paths_construct(int size)
 
 
 /**
- * Função criada para printar os caminhos e o custo total deles
- * Cria um vetor auxiliar chamado print_list onde vai sendo adicionado
- * cada nó e seu nó de origem até que chegue no nó 0
- * depois vai removendo do final e printando 
- * @param paths vetor de caminhos 
+ *  Function that prints the path
+ * @param paths - vector with the shortests paths 
 */
 void paths_print(Vector *paths)
 {
