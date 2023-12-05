@@ -4,6 +4,7 @@
 #include "vector.h"
 #include "problem.h"
 
+
 PossiblePaths *possible_paths_construct(int index, int previous, int previous_distance)
 {
     PossiblePaths *pp = (PossiblePaths *)calloc(1, sizeof(PossiblePaths));
