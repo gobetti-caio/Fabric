@@ -3,21 +3,17 @@
 #include "dijkstra.h"
 #include "path.h"
 
+
 /**
-Função que identifica qual dos vizinhos do nó analizado
-ja foram adicionados ao path para assim determinar
-quais ainda são possiveis caminhos a serem analizados
-   @param paths - vetor com o caminho ja construido
- * @param possible_paths vetor de nós que talvez possam ser visitados
- * @param source valor do nó de origem
+function that identifies wich ones of the
+neighbors of a node have been alredy visited
+then return the ones that havent
+   @param paths - path with the nodes modified/not modified
+ * @param possible_paths - vector with all the nodes analyzed (problem in this case)
+ * @param prev - node analyzed
  */
 
-/* Recebe os lugares ja adicionados no path, os possiveis luga res a serem visitados e o index do local atual
-controi um vetor para guardar os vizinhos, checa se os possiveis locais a serem visitados são vizinhos
-do local atual e se ja foram adionados no path, em caso positivo e negatibo respectivamente o lugar
-analisado é adicionado como vizinho e é retornardo para ser adicionado na heap */ 
-
-Vector *find_neighbors(Vector *paths, Vector *possible_paths, int prev) //check
+Vector *find_neighbors(Vector *paths, Vector *possible_paths, int prev) 
 {
     Vector *neighbors = vector_construct();
     int size = vector_size(possible_paths);
@@ -27,7 +23,7 @@ Vector *find_neighbors(Vector *paths, Vector *possible_paths, int prev) //check
         PossiblePaths *aux = vector_get(possible_paths, i);
         PossiblePaths *was_visited = vector_get(paths, aux->index);
 
-        if (aux->previous == prev && was_visited->origin_distance == 0 &&was_visited->index != 0)
+        if (aux->previous == prev && was_visited->origin_distance == 0 && was_visited->index != 0)
         {
             vector_push_back(neighbors, aux);
         }
@@ -36,11 +32,12 @@ Vector *find_neighbors(Vector *paths, Vector *possible_paths, int prev) //check
     return neighbors;
 }
 
+
 /**
-Checa se todos os caminhos do path ja foram cosntruidos
- * @param paths vetor de visitados
+analyzed if the path has already been completelly build
+ * @param paths vector of the path
  */
-bool visited_check(Vector *paths) // check
+bool visited_check(Vector *paths)
 {
     int size = vector_size(paths);
     PossiblePaths *pp;
@@ -61,7 +58,13 @@ bool visited_check(Vector *paths) // check
 };
 
 
-void update_path(Vector *paths, PossiblePaths *node_removed) // check
+/** function that update the valor of the nodes that 
+havent been visited with his actual values
+* @param paths  - vector of the path
+* @param node_removed - node to be uptaded
+*/
+
+void update_path(Vector *paths, PossiblePaths *node_removed) 
 {
     // Taking advantage of the index of the vector we update the infomrmation of each node
     PossiblePaths *node_path;
@@ -72,16 +75,15 @@ void update_path(Vector *paths, PossiblePaths *node_removed) // check
 }
 
 
-/* 
-Recebe o nó removido, o caminho ja construido, o problem e a heap
-caminho ja construidoe o problemm são usados no find neigbors
-e a heap é para receber os vizinhos
+/**
+inserts in the heap the neighbors of the last updated node
+*@param node_removed - last updated node
+*@param paths - vector path
+*@param p - vector problem to be used in find_neighbors 
+*@param not_visited - heap that will recive the neighbors
+*/
 
-Serve pra pegar os vizinhos do nó que acabara de ser adicionado ao path e coloca-los na heap além de atualizar
-seus valores de distancia até a origem
- */
-
-void update_heap(PossiblePaths *node_removed, Vector *paths, Problem *p, Heap *not_visited) // check
+void update_heap(PossiblePaths *node_removed, Vector *paths, Problem *p, Heap *not_visited) 
 {
     Vector *neighbors = find_neighbors(paths, p->possible_paths_nodes, node_removed->index);
     PossiblePaths *pn;
@@ -96,28 +98,29 @@ void update_heap(PossiblePaths *node_removed, Vector *paths, Problem *p, Heap *n
     vector_destroy(neighbors);
 }
 
-Vector *solve_dijkstra(Problem *problem)// check
+
+Vector *solve_dijkstra(Problem *problem)
 {
     Problem *p = problem;
     Vector *paths = paths_construct(p->size);
     Heap *not_visited = heap_construct();
 
     PossiblePaths *node_removed;
-    PossiblePaths *origin = possible_paths_construct(0, 0, 0); // nó de origem
+    PossiblePaths *origin = possible_paths_construct(0, 0, 0); 
 
-    heap_push(not_visited, origin, origin->origin_distance); // consertar a heap
+    heap_push(not_visited, origin, origin->origin_distance); 
 
-    while (visited_check(paths) == false || heap_empty(not_visited) == false) // check
+    while (visited_check(paths) == false || heap_empty(not_visited) == false) 
     {
-        node_removed = heap_pop(not_visited); // check 
+        node_removed = heap_pop(not_visited);  
         int i = node_removed->index;
-        PossiblePaths *analisado = vector_get(paths, i);
+        PossiblePaths *analyzed = vector_get(paths, i);
 
-        if (node_removed->index == 0 || analisado->origin_distance == 0) // check
+        if (node_removed->index == 0 || analyzed->origin_distance == 0) 
         {
-            void update_path(paths, node_removed); // check
+            void update_path(paths, node_removed); 
 
-            void update_heap(node_removed, paths, p, not_visited); //check
+            void update_heap(node_removed, paths, p, not_visited); 
         }
     };
 
@@ -126,3 +129,34 @@ Vector *solve_dijkstra(Problem *problem)// check
 
     return paths;
 };
+
+
+
+/**
+ * ___________________________________________________________________________
+ * Algorithm explanation:
+
+In theory we recevi the  *@param p with all the nodes that 
+we will use to construct that path.
+
+we  make a push of a node that represents the origin then enters
+in a while that will only end when or the function visited_check
+returns true or when the heap with the nodes analyzed is empty 
+what implys that all the nodes had already been updated and we have 
+the shortedt path of  each spot
+
+we use the heap pop to obtain the shortest path in it and use a 
+condiotional to check if the node obtained had not been updated yet
+in negative cade we return to the beginning of the while, in negative
+case we updated the path with the node and then updated the heap with 
+it neighbors
+
+the loop continues until one of the conditions come out as true and then
+destroy the heap and the @param origin created earlier to avoid
+memory leak
+_____________________________________________________________________________
+
+It seems to exist some problem on the logic of the condiotional
+inisde of the loop
+
+*/
